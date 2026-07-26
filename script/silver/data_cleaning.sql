@@ -44,3 +44,17 @@ prd_start_dt,
 LEAD(prd_start_dt) OVER (PARTITION BY prd_key ORDER BY prd_start_dt)-1 AS prd_end_dt
 FROM "Bronze".crm_prd_info;
 
+
+INSERT INTO silver.erp_cust_az(cid, bdate, gen)
+SELECT 
+CASE WHEN cid LIKE 	'NAS%' THEN SUBSTRING(cid, 4, LENGTH(cid))
+	ELSE cid
+END AS cid, 
+CASE WHEN bdate > CURRENT_DATE THEN NULL
+	ELSE bdate
+END AS bdate, 
+CASE WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+	 WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'	 
+	 ELSE 'n/a'
+END AS gen
+FROM "Bronze".erp_cust_az

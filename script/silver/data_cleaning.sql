@@ -58,3 +58,18 @@ CASE WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
 	 ELSE 'n/a'
 END AS gen
 FROM "Bronze".erp_cust_az
+
+	
+INSERT INTO silver.erp_loc(
+cid,
+cntry
+)
+SELECT 
+REPLACE (cid, '-', '') AS cid,
+CASE WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
+	 WHEN TRIM(cntry) IN ('USA', 'US') THEN 'United States'
+	 WHEN TRIM(cntry) = 'DE' THEN 'Germany'
+	 ELSE TRIM(cntry)
+END AS cntry
+FROM "Bronze".erp_loc
+

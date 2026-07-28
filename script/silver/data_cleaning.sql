@@ -73,3 +73,18 @@ CASE WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
 END AS cntry
 FROM "Bronze".erp_loc
 
+
+INSERT INTO silver.erp_px_cat(
+px_id,
+cat,
+subcat,
+maintenance
+)
+SELECT 
+px_id,
+cat,
+subcat,
+maintenance
+FROM silver.erp_px_cat
+WHERE px_id NOT IN 
+(SELECT cat_id FROM silver.crm_prd_info)

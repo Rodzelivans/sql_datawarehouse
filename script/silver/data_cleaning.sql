@@ -85,6 +85,6 @@ px_id,
 cat,
 subcat,
 maintenance
-FROM silver.erp_px_cat
-WHERE px_id NOT IN 
+FROM "Bronze".erp_px_cat
+WHERE px_id IN 
 (SELECT cat_id FROM silver.crm_prd_info)
